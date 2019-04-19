@@ -14,6 +14,14 @@ allocator* allocator_init()
 
 void allocator_delete(allocator* _allocator)
 {
+    int i = 0;
+
+    for(i = 0; i < _allocator->length; i++)
+    {
+        if(_allocator->addrs_mem[i] != NULL)
+            free(_allocator->addrs_mem[i]);
+    }
+
     if(_allocator->addrs_mem != NULL)
         free(_allocator->addrs_mem);
 
@@ -22,29 +30,35 @@ void allocator_delete(allocator* _allocator)
 }
 
 void allocator_add_element(allocator* _allocator, void* addr, size_t size)
-{
-    assert(_allocator != NULL && "allocator* _allocator is NULL.");
-
-    _allocator->bytes_allocated += size; 
-
+{   
+    size_t i = 0;
+    
     if(_allocator->addrs_mem == NULL)
     {
-        _allocator->addrs_mem = malloc(sizeof(addr));   
-    }
-    else 
-    {
-        _allocator->addrs_mem = realloc(_allocator->addrs_mem, sizeof(addr));
-    }
+        _allocator->addrs_mem = malloc(sizeof(addr)); 
 
-    // todo : allocation tableau 2D
-    //_allocator->addrs_mem[_allocator->length] = &addr;
-    _allocator->length++;
+        if(_allocator->addrs_mem == NULL)
+            assert("_allocator->addrs_mem is NULL.");
+        
+    }
+ 
+    _allocator->addrs_mem[_allocator->length] = malloc(sizeof(addr));
+
+    if(_allocator->addrs_mem[_allocator->length] == NULL)
+    {
+        for(i = 0; i < _allocator->length; i++)
+            free(_allocator->addrs_mem[i]);
+        assert("_allocator->addrs_mem[indexes] is NULL.");
+     }
+
+    _allocator->addrs_mem[_allocator->length] = addr;
+    _allocator->length++; 
 }
 
 void allocator_display(allocator* _allocator)
 {
     size_t i = 0;
-
+ 
     for(i = 0; i < _allocator->length; i++)
     {
         if(i % 4 == 0)

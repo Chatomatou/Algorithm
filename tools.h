@@ -4,5 +4,7 @@
 #include "Stack.h"
 #include "Queue.h"
 #include "allocator.h"
-
+#include "others.h"
+#include "string.h"
+ 
 #endif 
