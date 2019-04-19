@@ -24,7 +24,20 @@ void allocator_delete(allocator* _allocator)
         free(_allocator);
 }
 
-void *allocator_get_element(allocator *_allocator, int id)
+void allocator_set_element(allocator *_allocator, unsigned int id, void* addr, size_t size){
+    assert(_allocator != NULL && "allocator* _allocator is NULL.");
+
+    if (id > _allocator->length){
+        return;
+    }
+
+    for (size_t i = 0; i < size; i++){
+        *(char *)(*(_allocator->addrs_mem+id)+i) = *(char *)(addr+i);
+    }
+    
+}
+
+void *allocator_get_element(allocator *_allocator, unsigned int id)
 {
     assert(_allocator != NULL && "allocator* _allocator is NULL.");
 
