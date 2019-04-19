@@ -16,7 +16,8 @@ typedef struct s_allocator
 extern allocator* allocator_init();
 extern void allocator_delete(allocator* _allocator);
 
-extern void allocator_add_element(allocator* _allocator, void* addr, size_t size);
+extern int allocator_add_element(allocator* _allocator, void* addr, size_t size);
+extern void *allocator_get_element(allocator *_allocator, int id);
 extern void allocator_display(allocator* _allocator);
 
 
